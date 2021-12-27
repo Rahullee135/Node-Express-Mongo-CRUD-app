@@ -1,5 +1,5 @@
 const addButton = document.querySelector('.addButton')
-const input = document.querySelector('.input')
+var input = document.querySelector('.input')
 const container = document.querySelector('.container')
 
 class item {
@@ -39,7 +39,7 @@ class item {
 		const newInput = prompt('Enter new msg:', input)
 		input.value = newInput
 		await fetch('/api/modify', {
-			method: 'EDIT',
+			method: 'POST',
 			body: JSON.stringify({ old: input.value, new: newInput }),
 			headers: {
 				'Content-Type': 'application/json'
@@ -50,7 +50,7 @@ class item {
 	async remove(item, value) {
 		container.removeChild(item)
 		await fetch('/api/delete', {
-			method: 'DELETE',
+			method: 'POST',
 			body: JSON.stringify({ record: value }),
 			headers: {
 				'Content-Type': 'application/json'
@@ -64,7 +64,7 @@ async function check() {
 		new item(input.value)
 
 		await fetch('/api/create', {
-			method: 'CREATE',
+			method: 'POST',
 			body: JSON.stringify({ record: input.value }),
 			headers: {
 				'Content-Type': 'application/json'
@@ -86,3 +86,8 @@ boot()
 
 addButton.addEventListener('click', check)
 
+window.addEventListener('keydown', (e) => {
+	if (e.which == 13) {
+		check()
+	}
+})
