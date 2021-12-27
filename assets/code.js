@@ -39,7 +39,7 @@ class item {
 		const newInput = prompt('Enter new msg:', input)
 		input.value = newInput
 		await fetch('/api/modify', {
-			method: 'POST',
+			method: 'EDIT',
 			body: JSON.stringify({ old: input.value, new: newInput }),
 			headers: {
 				'Content-Type': 'application/json'
@@ -50,7 +50,7 @@ class item {
 	async remove(item, value) {
 		container.removeChild(item)
 		await fetch('/api/delete', {
-			method: 'POST',
+			method: 'DELETE',
 			body: JSON.stringify({ record: value }),
 			headers: {
 				'Content-Type': 'application/json'
@@ -64,7 +64,7 @@ async function check() {
 		new item(input.value)
 
 		await fetch('/api/create', {
-			method: 'POST',
+			method: 'CREATE',
 			body: JSON.stringify({ record: input.value }),
 			headers: {
 				'Content-Type': 'application/json'
@@ -86,8 +86,3 @@ boot()
 
 addButton.addEventListener('click', check)
 
-window.addEventListener('keydown', (e) => {
-	if (e.which == 13) {
-		check()
-	}
-})
